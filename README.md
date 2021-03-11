@@ -119,3 +119,45 @@ To disable introspection, add introspection param to create of ApolloServer
     This is how we create a way for Graph to populate the speakers array, since speakers is not a default Scalar type.
 
     The Apollo RESTDataSource calls are cached, so even though we reference it multiple times it actually only calls it once
+
+### Chapter 5: Mutating Data
+
+    - Modifying data (CRUD)
+
+    In Playground to execute a mutation, instead of a query like we have been doing:
+    	mutation {
+    	  toggleFavoriteSession(id: "84473") {
+    	    title
+    	    favorite
+    	  }
+    	}
+
+    You can't do both a query & mutation in the same playground execution, you can however do multiple of either.
+
+    - Input Types > Need to define an input type for add methods
+    	input SessionInput {
+    	    title: String!,
+    	    description: String,
+    	    startsAt: String,
+    	    endsAt: String,
+    	    room: String,
+    	    day: String,
+    	    format: String,
+    	    track: String,
+    	    level: String,
+    	    favorite: Boolean,
+    	}
+
+    Playground execute mutation:
+    	mutation {
+    	  addNewSession(session: {
+    	    title: "New Session",
+    	    description: "This is a great session"
+    	  }){
+    	    id
+    	    title
+    	    description
+    	  }
+    	}
+
+    - Enums are kinda neat but have issues, by convention they should be all caps. But that doesn't often translate to what is stored in data.  ie. EUROPA vs Europa.  So then you need a resolver to convert the ENUM to the value.
