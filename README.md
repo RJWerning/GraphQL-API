@@ -101,3 +101,16 @@ To disable introspection, add introspection param to create of ApolloServer
     "NODE_ENV": "production"
     }
     }
+
+### Chapter 4: Nesting Queries:
+
+    Already has a mock API created, just change to that dir & run npm
+    C:\Development\GraphQL-API Demo source\04\demos\code\speakers>
+    > npm install nodemon
+    > npm install
+    > npm run start
+
+    Verify in browser - http://localhost:3000/speakers
+
+    Apollo provides a default REST datasource out of the box
+    > npm install apollo-datasource-rest@0.9.3

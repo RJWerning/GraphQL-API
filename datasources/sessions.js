@@ -8,7 +8,6 @@ class SessionAPI extends DataSource {
     }
 
     initialize(config) {
-
     }
 
     getSessions(args) {
