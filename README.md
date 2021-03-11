@@ -49,3 +49,55 @@ A schema allows the client to understand what properties are available on your a
     - Query byId
     - Filtering queries
     - Code Cleanup
+
+Resolver : A function that is responsible for populating the data for a single field in your schema
+Resolver Map : A big object that holds all of those Type > Field > Resolver functions
+Going to use mock data, can hook it up to real data in Jonathan's MongoDB course
+
+-   Add sessions to index.js requires
+-   create resolver for sessions
+-   in GraphQL Playground, enter a query to return all sessions
+    query {
+    sessions {
+    title,
+    room,
+    track
+    }
+    }
+
+-   Field level directives
+    @include(if: Boolean!) > Calls the resolver for the annotated field if the boolean is true
+    @skip(if: Boolean!) > Skips the annotated field if the boolean is true
+    @deprecated(reason: String) > Mark a field as deprecated with a reason for its future removal
+
+You can do custom directives if required, not covered in this course
+Deprecated will show up in the schema
+
+-   Implement a datasource
+    const {DataSource} = require('apollo-datasource');
+    Need to install apollo-datasource
+
+    > npm install apollo-datasource@0.7.0
+
+-   Implement getSessionById
+    Need to install lodash
+
+    > npm install lodash@4.17
+
+    create function in sessions.js
+    add use to Query & resolvers in index.js
+
+-   Filtering by many columns
+
+To disable introspection, add introspection param to create of ApolloServer
+
+-   This allows Playground to work but cannot see Docs or Schema
+    To disable Playground, add playground param to create of ApolloServer
+-   Running playground now gives a "GET query missing" error
+    const server = new ApolloServer({typeDefs, resolvers, dataSources, introspection: false, playground: false});
+    To disable Playground from within package.json, add the following
+    "nodemonConfig": {
+    "env": {
+    "NODE_ENV": "production"
+    }
+    }
