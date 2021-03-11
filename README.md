@@ -92,9 +92,12 @@ Deprecated will show up in the schema
 To disable introspection, add introspection param to create of ApolloServer
 
 -   This allows Playground to work but cannot see Docs or Schema
-    To disable Playground, add playground param to create of ApolloServer
+
+To disable Playground, add playground param to create of ApolloServer
+
 -   Running playground now gives a "GET query missing" error
     const server = new ApolloServer({typeDefs, resolvers, dataSources, introspection: false, playground: false});
+
     To disable Playground from within package.json, add the following
     "nodemonConfig": {
     "env": {

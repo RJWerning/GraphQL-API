@@ -24,7 +24,7 @@ type Mutation {
     addNewSession(session: SessionInput): Session
 }
 
-input SessionInput {
+type SessionInput {
     title: String!,
     description: String,
     startsAt: String,
