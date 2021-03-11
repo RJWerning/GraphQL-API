@@ -114,3 +114,8 @@ To disable introspection, add introspection param to create of ApolloServer
 
     Apollo provides a default REST datasource out of the box
     > npm install apollo-datasource-rest@0.9.3
+
+    In resolvers.js, we need to create a Session resolver for speakers since we added speakers: [Speaker] to Session in schema.js.
+    This is how we create a way for Graph to populate the speakers array, since speakers is not a default Scalar type.
+
+    The Apollo RESTDataSource calls are cached, so even though we reference it multiple times it actually only calls it once

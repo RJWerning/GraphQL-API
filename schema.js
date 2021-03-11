@@ -37,6 +37,5 @@ type Speaker {
     id: ID!,
     bio: String,
     name: String,
-    sessions: [Session],
 }
 `
