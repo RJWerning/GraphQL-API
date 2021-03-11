@@ -20,6 +20,8 @@ https://app.pluralsight.com/course-player?clipId=7ebd1712-79cf-4596-bc04-bc4e73e
     > npm isntall nodemon
     > npm install graphql
 
+    * Add VS Code extension > Apollo GraphQL
+
 A schema allows the client to understand what properties are available on your api. And enables them to select only the fields they want.
 
 -   Apollo Playground > a graphical, interactive, in-browser GraphQL IDE

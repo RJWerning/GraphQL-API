@@ -1,24 +1,25 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer } = require('apollo-server');
+const SessionAPI = require('./datasources/sessions');
+const typeDefs = require('./schema.js');
+const resolvers = require('./resolvers.js');
 
-const typeDefs = gql`
-type Query {
-    sessions: [Session]
-}
+const dataSources = () => ({
+    sessionAPI: new SessionAPI(),
+})
 
-type Session {
-    id: ID!,
-    title: String!,
-    description: String,
-    startsAt: String,
-    endsAt: String,
-    room: String,
-    day: String,
-    format: String,
-    track: String,
-    level: String,
-}`
+// To disable introspection, add introspection param to create of ApolloServer
+//  - This allows Playground to work but cannot see Docs or Schema
+// To disable Playground, add playground param to create of ApolloServer
+//  - Running playground now gives a "GET query missing" error
+// const server = new ApolloServer({typeDefs, resolvers, dataSources, introspection: false, playground: false});
+// To disable Playground from within package.json, add the following
+// "nodemonConfig": {
+//     "env": {
+//         "NODE_ENV": "production"
+//     }
+// }
 
-const server = new ApolloServer({typeDefs});
+const server = new ApolloServer({typeDefs, resolvers, dataSources});
 
 server.listen({ port: process.env.port || 4000 }).then(({ url }) => {
     console.log(`graphQL running at ${url}`);
