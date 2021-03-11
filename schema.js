@@ -30,6 +30,7 @@ type Session {
     format: String,
     track: String @deprecated(reason: "Too many sessions do not fit into a single track"),
     level: String,
+    speakers: [Speaker]
 }
 
 type Speaker {
