@@ -241,3 +241,15 @@ To disable Playground, add playground param to create of ApolloServer
     	    }
     	  }
     	}
+
+### Chapter 7: Working with Apollo Studio
+
+    Watched but did not follow exercises
+    https://studio.apollographql.com/
+    Signed up using my github account RWerning, company is WerningSoftwareLLC
+
+    Easy setup, provides real-time metrics on performance, errors etc.
+
+    Automatically tracks version as you push new versions to Studio
+
+    Checks for errors when you do pushes (Lint?)
