@@ -14,9 +14,16 @@ type Query {
         track: String,
         level: String,
     ): [Session],
-    sessionById(id: ID): Session,
+    sessionById(id: ID): SessionOrError,
     speakers: [Speaker],
     speakerById(id: ID): Speaker,
+}
+
+union SessionOrError = Session | Error
+
+type Error {
+    code: String
+    message: String
 }
 
 type Mutation {
@@ -24,7 +31,7 @@ type Mutation {
     addNewSession(session: SessionInput): Session
 }
 
-type SessionInput {
+input SessionInput {
     title: String!,
     description: String,
     startsAt: String,
