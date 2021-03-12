@@ -164,3 +164,80 @@ To disable Playground, add playground param to create of ApolloServer
     	}
 
     - Enums are kinda neat but have issues, by convention they should be all caps. But that doesn't often translate to what is stored in data.  ie. EUROPA vs Europa.  So then you need a resolver to convert the ENUM to the value.
+
+### Chapter 6: Error Handling and Validation
+
+    - Built in error handling
+    	Query object validation automatically occur, can't query for fields that don't exist or reference a scalar type (string) as if it was an object.
+    	Out of the box the error message is rather messy, it includes stacktraces
+
+    - Cleaner Error Messages
+    	Remove stacktrace from error, debug:
+    		const server = new ApolloServer({typeDefs, resolvers, dataSources, debug: false});
+
+    	To clean up error message, include formatError
+    		const server = new ApolloServer({
+    		    typeDefs,
+    		    resolvers,
+    		    dataSources,
+    		    debug: false,
+    		    formatError: (err) => {
+    		        if (err.extensions.code == 'INTERNAL_SERVER_ERROR') {
+    		            return new ApolloError("We are experiencing technical difficulties", "ERROR");
+    		        }
+    		        return err;
+    		    }
+    		});
+
+
+    	For a more granular approach to errors, use a try/catch and throw ApolloError
+    	    async speakers(session, args, {dataSources}) {
+    	        try {
+    	            console.log('speakers');
+    	            const speakers = await dataSources.speakerAPI.getSpeakers();
+    	            const returns = speakers.filter((speaker) => {
+    	                return _.filter(session.speakers, {id: speaker.id}).length > 0;
+    	            });
+
+    	            return returns;
+    	        } catch (error) {
+    	            console.log('error', error);
+    	            return new ApolloError("Unable to retrieve speakers", "SPEAKERAPIERROR");
+    	        }
+    	    }
+
+
+    - Unions for Better Errors
+    	in schema > define field as typeOrError > sessionById(id: ID): SessionOrError,
+    	Define the union > union SessionOrError = Session | Error
+    	In Resolvers, define the typeOrError object
+    	    SessionOrError: {
+    	        __resolveType(obj) {
+    	            if (obj.code) {
+    	                return 'Error';
+    	            }
+    	            return 'Session';
+    	        },
+    	    },
+
+    Playground query would need to be reformated to handle the fragment annotation (spread operator)
+    	query {
+    	  sessionById(id: "84473") {
+    	    ... on Session {
+    	      title
+    	      favorite
+    	      room
+    	      track
+    	      id
+    	      level
+    	      description
+    	      speakers {
+    	        name
+    	      }
+    	    }
+    	    ... on Error {
+    	      code
+    	      message
+    	    }
+    	  }
+    	}
